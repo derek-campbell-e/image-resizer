@@ -1,0 +1,23 @@
+{
+  "name": "image-resizer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "DEBUG=*,-node* nodemon --exec \"electron .\"",
+    "test": "DEBUG=*,-node*,-mocha* nodemon --exec \"mocha tests/**/*.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^1.7.10",
+    "image-type": "^3.0.0",
+    "jquery": "^3.3.1",
+    "node-dir": "^0.1.17",
+    "read-chunk": "^2.1.0",
+    "sharp": "^0.18.2"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.7.3"
+  }
+}

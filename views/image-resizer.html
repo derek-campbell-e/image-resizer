@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Work+Sans:300,400,700" rel="stylesheet">
+    <title>Image Resizer</title>
+    <style>
+      body {
+        background-color: #191d27;
+        color: #fff;
+        -ms-overflow-style: scrollbar;
+        -webkit-app-region:drag;
+        font-family: 'Work Sans', sans-serif;
+      }
+
+      .image-resize-container {
+        -ms-overflow-style: scrollbar;
+        -webkit-app-region:drag;
+      }
+
+      body > * {
+        -webkit-app-region: no-drag;
+        -webkit-user-drag: none;
+      }
+
+      .image-resize-box {
+        background-color: #222734;
+        width: 225px;
+        height: 225px;
+        border-radius: 4px;
+
+      }
+      .image-resize-container {
+        padding: 21px;
+        padding-top:42px;
+      }
+      h1 {
+        font-family: 'Work Sans', sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        margin:0;
+      }
+      h1 small {
+        font-size: 24px;
+        font-weight: 100;
+      }
+      .title-col {
+        margin-bottom: 21px;
+      }
+      input[type='file'] {
+        display: none;
+      }
+      .image-resize-box {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .caption {
+        text-align: center;
+        width: 100%;
+        display: block;
+        font-family: 'Rubik', sans-serif;
+        font-weight: 500;
+        margin-bottom: 21px;
+      }
+      .folder-icon {
+        display: block;
+        width: 100px;
+        height: 100px;
+        background-color: #f06;
+        border-radius: 50%;
+        margin-bottom: 21px;
+      }
+
+      .folder-icon.alt {
+        background-color: #5e85e3;
+      }
+
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 21px;
+      }
+
+      .folder-text {
+        font-family: 'Work Sans', sans-serif;
+        background-color:#191d27;
+        padding: 6px;
+        display: block;
+        width: 100%;
+        font-size: 80%;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      .form-control, .form-control:focus {
+        background-color:#191d27;
+        padding: 6px;
+        border: 0px;
+        color: #fff;
+      }
+
+      .progress {
+        margin-top: 21px;
+        background-color:#222734;
+        height: 63px;
+      }
+
+      .progress .progress-bar {
+        background-color: #5e85e3;
+        font-size: 24px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class='image-resize-container'>
+      <div class='row'>
+        <div class='col title-col'>
+          <h1>IMAGE RESIZER<br><small>v0.12</small></h1>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-4'>
+          <div class='image-resize-box inputDirectory' data-target='inputDirectory'>
+              <div class='wrapper'>
+                <span class='folder-icon'></span>
+                <span class='caption'>Input Directory</span>
+                <span class='folder-text'>&nbsp;</span>
+              </div>
+          </div>
+          <input type="file"
+          webkitdirectory name='inputDirectory'/>
+        </div>
+        <div class='col-4'>
+          <div class='image-resize-box outputDirectory' data-target='outputDirectory'>
+            <div class='wrapper'>
+              <span class='folder-icon alt'></span>
+              <span class='caption'>Output Directory</span>
+              <span class='folder-text'>&nbsp;</span>
+            </div>
+          </div>
+          <input type="file"
+          webkitdirectory name='outputDirectory' />
+        </div>
+        <div class='col-4'>
+          <div class='image-resize-box'>
+              <div class='wrapper'>
+                <span class='caption'>Max Dimensions</span>
+                <div class='form-group'>
+                  <label for="width">Width</label>
+                  <input type="text" class="form-control" id="width" aria-describedby="max-width" placeholder="width in px">
+                </div>
+                <div class='form-group'>
+                  <label for="height">Height</label>
+                  <input type="text" class="form-control" id="height" aria-describedby="max-height" placeholder="height in px">
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col'>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">START</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.$ = window.jQuery = require('jquery');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+      const {ipcRenderer} = require('electron');
+      let truncate = function(string){
+        let newString = "";
+        if(string.length > 20){
+          newString = string.substring(0, 40) + "...";
+        } else {
+          newString = string;
+        }
+        return newString;
+      };
+
+      $(document).on('click', ".inputDirectory, .outputDirectory", function(e){
+        let dataTarget = $(this).attr('data-target');
+        ipcRenderer.send('open-folder-picker', dataTarget);
+      });
+
+      ipcRenderer.on('chosen-folder', function(event, dataTarget, folder){
+        let folderText = truncate(folder);
+        let dom = $("."+dataTarget);
+        dom.find(".folder-text").text(folderText).attr('folder', folder);
+      });
+
+      ipcRenderer.on('resize-progress', function(event, progress){
+        $(".progress-bar").css('width', progress+"%").text(progress+"%");
+      });
+
+      $(document).on('click', '.progress', function(){
+        let inputFolder = $('.inputDirectory .folder-text').attr('folder');
+        let outputFolder = $('.outputDirectory .folder-text').attr('folder');
+        let maxDimensions = {width: parseInt($("#width").val()), height: parseInt($("#height").val())};
+        ipcRenderer.send('start-resizing', inputFolder, outputFolder, maxDimensions);
+      });
+      
+    </script>
+  </body>
+</html>
