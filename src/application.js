@@ -20,7 +20,6 @@ module.exports = function Application(ImageResizer){
   application.meta = require('../package.json');
 
   ipcMain.on('get-meta-data', function(event, args){
-    console.log("MNETAA");
     event.sender.send('meta-data', application.meta);
   });
 
@@ -40,7 +39,7 @@ module.exports = function Application(ImageResizer){
   ipcMain.on('start-resizing', function(event, inputFolder, outputFolder, maxDimensions){
     ImageResizer.delegate = event.sender;
     ImageResizer.resize(maxDimensions, inputFolder, outputFolder, null, function(){
-      console.log("DONE");
+      
     })
   });
 
@@ -50,15 +49,13 @@ module.exports = function Application(ImageResizer){
     mainWindow = new BrowserWindow({
       width: 800, 
       height: 450, 
-      //frame: false, 
       resizable: false, 
       titleBarStyle: 'hiddenInset',
       movable: true,
       fullscreenable: false,
       nodeIntegration: true, 
     });
-    console.log(application.mainScreen);
-  
+    
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
       pathname: application.mainScreen,
@@ -99,8 +96,7 @@ module.exports = function Application(ImageResizer){
       createWindow()
     }
   })
-  console.log("AAAAA");
-
+  
   return application;
   
   // In this file you can include the rest of your app's specific main process
