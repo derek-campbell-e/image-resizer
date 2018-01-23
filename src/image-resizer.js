@@ -51,7 +51,7 @@ module.exports = function ImageResizer(){
 
   ir.progressUpdate = function(error){
     ir.processed ++;
-    ir.progress = (ir.processed / ir.items) * 100;
+    ir.progress = Math.ceil((ir.processed / ir.items) * 100);
     if(ir.delegate !== null){
       ir.delegate.send('resize-progress', ir.progress);
     }

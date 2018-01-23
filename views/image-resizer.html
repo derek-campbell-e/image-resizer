@@ -8,6 +8,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Work+Sans:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
     <title>Image Resizer</title>
     <style>
       body {
@@ -72,13 +74,8 @@
         display: block;
         width: 100px;
         height: 100px;
-        background-color: #f06;
         border-radius: 50%;
         margin-bottom: 21px;
-      }
-
-      .folder-icon.alt {
-        background-color: #5e85e3;
       }
 
       .wrapper {
@@ -118,20 +115,43 @@
         font-size: 24px;
       }
 
+      .folder-icon i {
+        line-height: 100px;
+        font-size: 100px;
+        width: 100px;
+        text-align: center;
+      }
+
+      .folder-icon.alt i {
+        color: #5e85e3;
+      }
+
+      .folder-icon i {
+        color: #f06;
+      }
+
+      .modal-content {
+        background-color: #222734;
+      }
+
+      .modal-header,.modal-footer {
+        border: 0px;
+      }
+
     </style>
   </head>
   <body>
     <div class='image-resize-container'>
       <div class='row'>
         <div class='col title-col'>
-          <h1>IMAGE RESIZER<br><small>v0.12</small></h1>
+          <h1 id='package'>IMAGE RESIZER<br><small id='version'>v0.12</small></h1>
         </div>
       </div>
       <div class='row'>
         <div class='col-4'>
           <div class='image-resize-box inputDirectory' data-target='inputDirectory'>
               <div class='wrapper'>
-                <span class='folder-icon'></span>
+                <span class='folder-icon'><i class="material-icons">create_new_folder</i></span>
                 <span class='caption'>Input Directory</span>
                 <span class='folder-text'>&nbsp;</span>
               </div>
@@ -142,7 +162,7 @@
         <div class='col-4'>
           <div class='image-resize-box outputDirectory' data-target='outputDirectory'>
             <div class='wrapper'>
-              <span class='folder-icon alt'></span>
+              <span class='folder-icon alt'><i class="material-icons">create_new_folder</i></span>
               <span class='caption'>Output Directory</span>
               <span class='folder-text'>&nbsp;</span>
             </div>
@@ -174,45 +194,31 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
-      window.$ = window.jQuery = require('jquery');
+      let ImageResizer = require('./js/image-resizer')();
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script>
-      const {ipcRenderer} = require('electron');
-      let truncate = function(string){
-        let newString = "";
-        if(string.length > 20){
-          newString = string.substring(0, 40) + "...";
-        } else {
-          newString = string;
-        }
-        return newString;
-      };
-
-      $(document).on('click', ".inputDirectory, .outputDirectory", function(e){
-        let dataTarget = $(this).attr('data-target');
-        ipcRenderer.send('open-folder-picker', dataTarget);
-      });
-
-      ipcRenderer.on('chosen-folder', function(event, dataTarget, folder){
-        let folderText = truncate(folder);
-        let dom = $("."+dataTarget);
-        dom.find(".folder-text").text(folderText).attr('folder', folder);
-      });
-
-      ipcRenderer.on('resize-progress', function(event, progress){
-        $(".progress-bar").css('width', progress+"%").text(progress+"%");
-      });
-
-      $(document).on('click', '.progress', function(){
-        let inputFolder = $('.inputDirectory .folder-text').attr('folder');
-        let outputFolder = $('.outputDirectory .folder-text').attr('folder');
-        let maxDimensions = {width: parseInt($("#width").val()), height: parseInt($("#height").val())};
-        ipcRenderer.send('start-resizing', inputFolder, outputFolder, maxDimensions);
-      });
-      
-    </script>
+    
   </body>
 </html>

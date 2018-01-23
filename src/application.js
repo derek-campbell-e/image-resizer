@@ -17,15 +17,22 @@ module.exports = function Application(ImageResizer){
   application.window = mainWindow;
   application.mainScreen = path.join(__dirname, '..', 'views', 'image-resizer.html');
 
+  application.meta = require('../package.json');
+
+  ipcMain.on('get-meta-data', function(event, args){
+    console.log("MNETAA");
+    event.sender.send('meta-data', application.meta);
+  });
+
   ipcMain.on('open-folder-picker', function(event, args){
     const dialog = electron.dialog;
     dialog.showOpenDialog({properties: ['openDirectory']}, function(folder){
       if(typeof folder === "undefined"){
+        event.sender.send('chosen-folder', args, false);
         return false;
       }
       if(folder.length > 0){
         event.sender.send('chosen-folder', args, folder[0]);
-        
       }
     });
   });
